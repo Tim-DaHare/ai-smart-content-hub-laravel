@@ -42,12 +42,14 @@ class ContentEmbeddingService
      *
      * @return Collection<int, Content>
      */
-    public function search(string $query, int $limit = 10): Collection
+    public function search(string $query, int $limit = 10, ?int $projectId = null): Collection
     {
         $queryEmbedding = $this->embedTitles([$query])[0];
 
         return Content::query()
             ->whereNotNull('title_embedding')
+            ->forProject($projectId)
+            ->with(['project', 'category', 'contentStatus'])
             ->get()
             ->map(fn (Content $content) => [
                 'content' => $content,

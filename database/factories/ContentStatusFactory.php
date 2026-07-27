@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Content;
 use App\Models\ContentStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Content>
+ * @extends Factory<ContentStatus>
  */
-class ContentFactory extends Factory
+class ContentStatusFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +18,7 @@ class ContentFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->sentence(),
-            'body' => fake()->paragraphs(3, true),
-            'content_status_id' => ContentStatus::factory(),
+            'title' => fake()->word(),
         ];
     }
 }
