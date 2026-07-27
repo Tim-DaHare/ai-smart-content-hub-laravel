@@ -3,16 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
+use App\Services\ContentEmbeddingService;
 use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
+    public function __construct(private readonly ContentEmbeddingService $embeddings) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return Content::paginate();
+    }
+
+    /**
+     * Search for content by semantic similarity to the given title string.
+     */
+    public function search(Request $request)
+    {
+        $validated = $request->validate([
+            'q' => ['required', 'string', 'min:1'],
+        ]);
+
+        return $this->embeddings->search($validated['q']);
     }
 
     /**

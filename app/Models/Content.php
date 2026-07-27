@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $project_id
  * @property int|null $category_id
  * @property string $title
+ * @property array<int, float>|null $title_embedding
  * @property string|null $body
  * @property string $status
  * @property Carbon|null $created_at
@@ -24,6 +25,15 @@ class Content extends Model
 {
     /** @use HasFactory<ContentFactory> */
     use HasFactory;
+
+    protected $hidden = ['title_embedding'];
+
+    protected function casts(): array
+    {
+        return [
+            'title_embedding' => 'array',
+        ];
+    }
 
     public function project(): BelongsTo
     {
